@@ -39,7 +39,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y software
     git \
     mailutils mc inetutils-ping unzip bzip2 libpng-dev net-tools openssh-server supervisor nano curl sudo mysql-client nginx redis-tools htop vim build-essential make dnsutils
 
-ADD ./config/ssmtp.conf /etc/ssmtp/ssmtp.conf
+#ADD ./config/ssmtp.conf /etc/ssmtp/ssmtp.conf
 ADD ./config/supervisord.conf /etc/supervisord.conf
 #
 RUN sed -i 's|%$PHP_VERSION%|'$PHP_VERSION'|g'  /etc/supervisord.conf
