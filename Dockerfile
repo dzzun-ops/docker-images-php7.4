@@ -65,3 +65,41 @@ RUN mkdir -p /var/www && chown www-data:www-data /var/www/ && usermod -a -G sudo
 RUN echo "www-data ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 RUN rm /etc/nginx/sites-available/default && rm /etc/nginx/sites-enabled/default
+
+# www.conf
+RUN sed -i 's/listen\s*=.*/listen = 0.0.0.0:9000/g' /etc/php/$PHP_VERSION/fpm/pool.d/www.conf
+# PHP options
+RUN sed -i 's/memory_limit\s*=.*/memory_limit=2048M/g' /etc/php/$PHP_VERSION/cli/php.ini
+RUN sed -i 's/memory_limit\s*=.*/memory_limit=2048M/g' /etc/php/$PHP_VERSION/fpm/php.ini
+RUN sed -i 's/max_execution_time\s*=.*/max_execution_time=3600/g' /etc/php/$PHP_VERSION/fpm/php.ini
+RUN sed -i 's/max_execution_time\s*=.*/max_execution_time=3600/g' /etc/php/$PHP_VERSION/cli/php.ini
+RUN sed -i 's/max_input_time\s*=.*/max_input_time=1200/g' /etc/php/$PHP_VERSION/fpm/php.ini
+RUN sed -i 's/max_input_time\s*=.*/max_input_time=1200/g' /etc/php/$PHP_VERSION/cli/php.ini
+RUN sed -i 's/max_input_vars\s*=.*/max_input_vars=30000/g' /etc/php/$PHP_VERSION/fpm/php.ini
+RUN sed -i 's/max_input_vars\s*=.*/max_input_vars=30000/g' /etc/php/$PHP_VERSION/cli/php.ini
+RUN sed -i 's/max_file_uploads\s*=.*/max_file_uploads=1000/g' /etc/php/$PHP_VERSION/fpm/php.ini
+RUN sed -i 's/max_file_uploads\s*=.*/max_file_uploads=1000/g' /etc/php/$PHP_VERSION/cli/php.ini
+RUN sed -i 's/default_socket_timeout\s*=.*/default_socket_timeout=1200/g' /etc/php/$PHP_VERSION/cli/php.ini
+RUN sed -i 's/default_socket_timeout\s*=.*/default_socket_timeout=1200/g' /etc/php/$PHP_VERSION/fpm/php.ini
+RUN sed -i 's/upload_max_filesize\s*=.*/upload_max_filesize=512M/g' /etc/php/$PHP_VERSION/cli/php.ini
+RUN sed -i 's/upload_max_filesize\s*=.*/upload_max_filesize=512M/g' /etc/php/$PHP_VERSION/fpm/php.ini
+RUN sed -i 's/post_max_size\s*=.*/post_max_size=512M/g' /etc/php/$PHP_VERSION/cli/php.ini
+RUN sed -i 's/post_max_size\s*=.*/post_max_size=512M/g' /etc/php/$PHP_VERSION/fpm/php.ini
+RUN sed -i 's/display_errors\s*=.*/display_errors=On/g' /etc/php/$PHP_VERSION/cli/php.ini
+RUN sed -i 's/display_errors\s*=.*/display_errors=On/g' /etc/php/$PHP_VERSION/fpm/php.ini
+
+# Fix slow ubuntu repoRUN sed -i 's/mirror.datacenter.by/archive.ubuntu.com/g' /etc/apt/sources.list
+#RUN sed -i 's/mirror.datacenter.by/archive.ubuntu.com/g' /etc/apt/sources.list
+#Clear space
+RUN sudo apt-get clean
+RUN rm -rf /var/lib/apt/lists/*
+
+RUN echo "Host *" >> /etc/ssh/ssh_config
+RUN echo "ForwardAgent yes" >> /etc/ssh/ssh_config
+RUN echo "HashKnownHosts no" >> /etc/ssh/ssh_config
+RUN echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
+
+WORKDIR /var/www
+USER root
+
+ENTRYPOINT [ "supervisord" ]
