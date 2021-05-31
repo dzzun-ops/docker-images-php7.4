@@ -3,7 +3,7 @@
 FROM ubuntu:18.04
 MAINTAINER Alex Kosenko <alexander.kosenko@vrpconsulting.com>
 ENV LC_ALL C.UTF-8
-ENV PHP_VERSION="7.3"
+ENV PHP_VERSION="7.4"
 
 #Fix slow repo
 #RUN sed -i 's/archive.ubuntu.com/mirror.datacenter.by/g' /etc/apt/sources.list
