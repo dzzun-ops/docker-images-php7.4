@@ -15,6 +15,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y software
     apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     php$PHP_VERSION \
     php$PHP_VERSION-cli \
+    php$PHP_VERSION-redis \
     php$PHP_VERSION-apcu \
     php$PHP_VERSION-opcache \
     php$PHP_VERSION-readline \
