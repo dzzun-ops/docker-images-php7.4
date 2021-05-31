@@ -37,7 +37,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y software
     php-json-schema \
     ssmtp \
     git \
-    mailutils mc inetutils-ping unzip bzip2 libpng-dev net-tools openssh-server supervisor nano curl sudo mysql-client nginx redis-tools htop vim build-essential make dnsutils
+    mailutils mc inetutils-ping unzip bzip2 libpng-dev net-tools openssh-server supervisor nano curl sudo mysql-client nginx redis-server redis-tools htop vim build-essential make dnsutils
 
 #ADD ./config/ssmtp.conf /etc/ssmtp/ssmtp.conf
 ADD ./config/supervisord.conf /etc/supervisord.conf
@@ -51,7 +51,7 @@ RUN echo 'www-data:hugTeybvootduc' | chpasswd && usermod -s /bin/bash www-data
 RUN echo "sudo -H -u www-data -s" >> /root/.bashrc
 
 # Install nodejs + grunt
-RUN curl -sL https://deb.nodesource.com/setup_10.x -o nodesource_setup.sh
+RUN curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh
 RUN sudo bash nodesource_setup.sh
 RUN apt-get install -y nodejs
 RUN npm install -g grunt-cli
